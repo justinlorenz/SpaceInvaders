@@ -1,12 +1,11 @@
 import pygame
 import os
+from main import WIDTH, HEIGHT
 
-# Enemies
+# Ships
 BLUE_SHIP = pygame.image.load(os.path.join("assets", "pixel_ship_blue_small.png"))
 RED_SHIP = pygame.image.load(os.path.join("assets", "pixel_ship_red_small.png"))
 GREEN_SHIP = pygame.image.load(os.path.join("assets", "pixel_ship_green_small.png"))
-
-# Main Player
 YELLOW_SHIP = pygame.image.load(os.path.join("assets", "pixel_ship_yellow.png"))
 
 # Lasers
@@ -16,4 +15,7 @@ GREEN_LASER = pygame.image.load(os.path.join("assets", "pixel_laser_green.png"))
 YELLOW_LASER = pygame.image.load(os.path.join("assets", "pixel_laser_yellow.png"))
 
 # Background
-BACKGROUND = pygame.image.load(os.path.join("assets", "background-black.png"))
+BACKGROUND = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background-black.png")),(WIDTH, HEIGHT))
+
+
+
