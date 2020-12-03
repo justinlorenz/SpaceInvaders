@@ -35,7 +35,7 @@ class Ship:
 
     def moveLasers(self, vel, obj):
         self.updateCooldown()
-        for laser in self.lasers:
+        for laser in self.lasers[:]:
             laser.moveLaser(vel)
             if laser.isOffScreen():
                 self.lasers.remove(laser)

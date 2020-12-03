@@ -27,6 +27,7 @@ class MainUi:
         self.progress = GameProgress()
         self.player = Player(int(self.width / 2) - 50, self.height - 150, 100)
         self.enemyHandler = EnemyHandler()
+        self.paused = False
         self.lost = False
         self.lostCount = 0
         pygame.display.set_caption(self.game)
@@ -37,7 +38,7 @@ class MainUi:
             self.window.blit(sprite_handler.BACKGROUND, (0, 0))
             self.window.blit(sprite_handler.MAIN_MENU, (20, 100))
             title_label = self.menuFont.render("Press the mousebutton to begin...", 1, (255, 255, 255))
-            self.window.blit(title_label, (self.width / 2 - title_label.get_width()/2, 500))
+            self.window.blit(title_label, (self.width / 2 - title_label.get_width() / 2, 500))
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -51,7 +52,7 @@ class MainUi:
         clock = pygame.time.Clock()
         while run:
             clock.tick(self.fps)
-
+            self.checkPaused()
             # Check if game is lost
             if self.progress.isGameLost() or self.player.health <= 0:
                 self.lost = True
@@ -66,10 +67,11 @@ class MainUi:
                 if event.type is pygame.QUIT:
                     quit()
 
-            # Create new enemies if level beaten
-            if self.progress.isLevelBeaten(self.enemyHandler.getNumOfEnemies()):
-                self.enemyHandler.createNewEnemies(self.progress.getWaveLength(), self.progress.getEnemyVel())
-            self.updateWindow()
+            if not self.paused:
+                # Create new enemies if level beaten
+                if self.progress.isLevelBeaten(self.enemyHandler.getNumOfEnemies()):
+                    self.enemyHandler.createNewEnemies(self.progress.getWaveLength(), self.progress.getEnemyVel())
+                self.updateWindow()
 
     def updateWindow(self):
         self.window.blit(sprite_handler.BACKGROUND, (0, 0))
@@ -99,3 +101,11 @@ class MainUi:
         for enemy in enemies:
             enemy.drawShip(self.window)
             enemy.moveLasers(self.progress.getEnemyLaserVel(), self.player)
+
+    def checkPaused(self):
+        keys = pygame.key.get_pressed()
+        # Press p to pause the game
+        if keys[pygame.K_p]:
+            self.paused = True
+        elif keys[pygame.K_c]: # Press c to continue the game
+            self.paused = False
