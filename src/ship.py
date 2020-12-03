@@ -20,7 +20,6 @@ class Ship:
         if self.cooldown == 0:
             self.lasers.append(Laser(self.x, self.y, self.laserImg))
             self.cooldown = 1
-        self.updateCooldown()
 
     def updateCooldown(self):
         if self.cooldown >= self.COOLDOWN:
@@ -33,6 +32,16 @@ class Ship:
 
     def getHeight(self):
         return self.shipImg.get_height()
+
+    def moveLasers(self, vel, obj):
+        self.updateCooldown()
+        for laser in self.lasers:
+            laser.moveLaser(vel)
+            if laser.isOffScreen():
+                self.lasers.remove(laser)
+            elif laser.collision(obj):
+                obj.health -= 10
+                self.lasers.remove(laser)
 
     def drawShip(self, window):
         window.blit(self.shipImg, (self.x, self.y))

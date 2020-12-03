@@ -17,5 +17,8 @@ YELLOW_LASER = pygame.image.load(os.path.join("assets", "pixel_laser_yellow.png"
 # Background
 BACKGROUND = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background-black.png")), (WIDTH, HEIGHT))
 
+# Space Invaders Logo
+MAIN_MENU = pygame.transform.scale(pygame.image.load(os.path.join("assets", "space-invaders-logo.png")), (WIDTH, 270))
+
 
 

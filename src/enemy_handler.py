@@ -1,6 +1,8 @@
 import random
-from main import HEIGHT, WIDTH
+from main import HEIGHT, WIDTH, FPS
 from enemy import Enemy
+from collide import Collide
+
 import pygame
 import sprite_handler
 from progress import GameProgress
@@ -15,18 +17,19 @@ class EnemyHandler:
             self.enemies.append(Enemy(random.randrange(50, WIDTH - 100), random.randrange(-HEIGHT * 2, -100),
                                       random.choice(["red", "blue", "green"]), enemyVel))
 
-    def moveEnemies(self):
+    def moveEnemies(self, player):
         livesLost = 0
-        for enemy in self.enemies:
+        for enemy in self.enemies[:]:
             enemy.moveShip()
-            if enemy.y + enemy.getHeight() > HEIGHT:
+            if random.randrange(0, 4 * FPS) == 1:
+                enemy.shoot()
+            if Collide(enemy, player):
+                player.health -= 10
+                self.enemies.remove(enemy)
+            elif enemy.y + enemy.getHeight() > HEIGHT:
                 livesLost += 1
                 self.enemies.remove(enemy)
-
         return livesLost
-
-
-        print(f"Enemy 1 y value {self.enemies[0].y}")
 
     def getNumOfEnemies(self):
         return len(self.enemies)

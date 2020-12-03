@@ -16,11 +16,9 @@ class Laser:
 
     def moveLaser(self, laserVel):
         self.y += laserVel
-        self.x += laserVel
 
     def isOffScreen(self):
-        if self.y > HEIGHT or self.y < 0:
-            return 0
+        return self.y > HEIGHT or self.y < 0 or self.x < 0 or self.y > WIDTH
 
     def collision(self, obj):
         return Collide(obj, self)

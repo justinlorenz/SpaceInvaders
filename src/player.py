@@ -4,6 +4,7 @@ import sprite_handler as sprite
 from main import HEIGHT, WIDTH
 
 PLAYER_VELOCITY = 5
+PLAYER_LASER_VEL = 6
 
 
 class Player(Ship):
@@ -21,7 +22,28 @@ class Player(Ship):
             self.x += self.velocity
         if keyDictionary[pygame.K_w] and self.y - self.velocity > 0:  # Up
             self.y -= self.velocity
-        if keyDictionary[pygame.K_s] and self.y + self.velocity + super().getHeight() < HEIGHT:  # Down
+        if keyDictionary[pygame.K_s] and self.y + self.velocity + super().getHeight() + 15 < HEIGHT:  # Down
             self.y += self.velocity
         if keyDictionary[pygame.K_SPACE]:
             self.shoot()
+
+    def moveLasers(self, vel, objs):
+        enemiesShot = 0
+        self.updateCooldown()
+        for laser in self.lasers:
+            laser.moveLaser(vel)
+            if laser.isOffScreen():
+                self.lasers.remove(laser)
+            else:
+                for obj in objs:
+                    if laser.collision(obj):
+                        enemiesShot += 1
+                        objs.remove(obj)
+                        self.lasers.remove(laser)
+        return enemiesShot
+
+    def drawHealth(self, window):
+        pygame.draw.rect(window, (255, 0, 0), (self.x, self.y + self.shipImg.get_height() + 10,
+                                               self.shipImg.get_width(), 10))
+        pygame.draw.rect(window, (0, 255, 0), (self.x, self.y + self.shipImg.get_height() + 10,
+                                               (self.health / 100) * self.shipImg.get_width(), 10))

@@ -11,7 +11,7 @@ FPS = 60
 
 def main():
     gui = MainUi(GAME_NAME, WIDTH, HEIGHT, FPS)
-    gui.runGame()
+    gui.loadGame()
 
 
 if __name__ == "__main__":
