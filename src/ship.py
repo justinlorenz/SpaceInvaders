@@ -2,7 +2,7 @@ import pygame
 
 
 class Ship:
-    def __init__(self, x, y, health, velocity):
+    def __init__(self, x, y, velocity, health=100):
         self.x = x
         self.y = y
         self.health = health

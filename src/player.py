@@ -8,7 +8,7 @@ PLAYER_VELOCITY = 5
 
 class Player(Ship):
     def __init__(self, x, y, health=100):
-        super().__init__(x, y, health, PLAYER_VELOCITY)
+        super().__init__(x, y, PLAYER_VELOCITY, health)
         self.shipImg = sprite.YELLOW_SHIP
         self.laserImg = sprite.YELLOW_LASER
         self.mask = pygame.mask.from_surface(self.shipImg)
