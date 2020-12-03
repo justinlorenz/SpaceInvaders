@@ -23,3 +23,5 @@ class Player(Ship):
             self.y -= self.velocity
         if keyDictionary[pygame.K_s] and self.y + self.velocity + super().getHeight() < HEIGHT:  # Down
             self.y += self.velocity
+        if keyDictionary[pygame.K_SPACE]:
+            self.shoot()

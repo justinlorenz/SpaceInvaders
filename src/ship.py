@@ -1,7 +1,11 @@
 import pygame
+from main import FPS
+from laser import Laser
 
 
 class Ship:
+    COOLDOWN = FPS / 2
+
     def __init__(self, x, y, velocity, health=100):
         self.x = x
         self.y = y
@@ -12,6 +16,18 @@ class Ship:
         self.lasers = []
         self.cooldown = 0
 
+    def shoot(self):
+        if self.cooldown == 0:
+            self.lasers.append(Laser(self.x, self.y, self.laserImg))
+            self.cooldown = 1
+        self.updateCooldown()
+
+    def updateCooldown(self):
+        if self.cooldown >= self.COOLDOWN:
+            self.cooldown = 0
+        elif self.cooldown > 0:
+            self.cooldown += 1
+
     def getWidth(self):
         return self.shipImg.get_width()
 
@@ -20,4 +36,6 @@ class Ship:
 
     def drawShip(self, window):
         window.blit(self.shipImg, (self.x, self.y))
+        for laser in self.lasers:
+            laser.drawLaser(window)
 
